@@ -22,3 +22,10 @@ for i=1:length(label_frist)
     Lp(i).label=label_frist(i);
 end
 Plot(pr_,edge_,Image,Lp,pos_mask,neg_mask); 
+
+%%
+%Track
+
+% Define the directory path
+directory = 'C:\Users\SSZ\Documents\GitHub\ISMP\Matlab\data-track';
+final_matrix = Track(directory);
