@@ -35,10 +35,11 @@ Note: Run the follow code and test the examples with the codes provided below.
 ## First-Identification
 ```matlab
 
+
 clear all
 close all
 clc
-Image=image;
+
 Image=fitsread('HMI20220117_235852_6173.fits'); %Load Magnetogram.
 threshold = 18; % threshold for magnetic field, in Gauss.
 [nx,ny]=size(Image); % nx and ny are  Number of rows and columns, respectively.
@@ -52,8 +53,13 @@ pr = centrality(G,'pagerank','FollowProbability',0.85); % Page-Rank.
 pr_ =reshape(pr,[nx, ny]); %Reshape Page Rank to image size.
 [img,pos_mask]=rankdown(edge_,threshold); %Extract boundries.
 [img,neg_mask]=rankdown(-edge_,threshold); %Extract boundries.
-dp = Label_of_patch(edge_); % Label of each patch.
-Plot(pr_,edge_,Image,dp,pos_mask,neg_mask); 
+Lp = Label_of_patch(edge_); % Label of each patch.
+label_frist=(1:length(Lp)); % Labeling the magnetic patches of the first magnetogram
+for i=1:length(label_frist)
+    Lp(i).label=label_frist(i);
+end
+Plot(pr_,edge_,Image,Lp,pos_mask,neg_mask); 
+
 ```
 
 <p align="center">
