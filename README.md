@@ -394,9 +394,8 @@ end
 ```
 
 <p align="center">
-<img src="https://github.com/zahratajik/ISMP/assets/75752814/89b430b7-d79b-42eb-95df-9b7ff1dd57a4" alt="HS" width="800">
+<img src="https://github.com/zahratajik/ISMP/assets/75752814/89b430b7-d79b-42eb-95df-9b7ff1dd57a4" alt="Track" width="800">
 </p>
-
 <!-- ![Track](https://github.com/zahratajik/ISMP/assets/75752814/89b430b7-d79b-42eb-95df-9b7ff1dd57a4) -->
 
 
