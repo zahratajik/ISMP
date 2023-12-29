@@ -54,8 +54,9 @@ dp = Label_of_patch(edge_); % Label of each patch.
 Plot(pr_,edge_,Image,dp,pos_mask,neg_mask); 
 ```
 
-
 <p align="center">
-<img src="https://github.com/hmddev1/ZM/assets/53661111/17d2dcb3-6816-45c1-b1bd-53ddf39b857e" alt="AIA" width="500">
+<img src="https://github.com/zahratajik/ISMP/assets/75752814/018bc214-f4f2-4011-a155-7ece547ed62a" alt="Identification" width="500">
 </p>
-<!-- ![AIA](https://github.com/hmddev1/ZM/assets/53661111/17d2dcb3-6816-45c1-b1bd-53ddf39b857e) -->
+<!-- ![Identification](https://github.com/zahratajik/ISMP/assets/75752814/018bc214-f4f2-4011-a155-7ece547ed62a) -->
+
+
