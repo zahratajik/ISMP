@@ -20,7 +20,7 @@ for i = 1:length(Mid_Numbers)
     clear w
 end
 w= find(Middle_Area==0);
-Middle_Area(w1)=[];
+Middle_Area(w)=[];
 
 % label next image
 Next_Numbers= cellfun(@(x) str2double(regexp(x, '\d+', 'match')), Next_label, 'UniformOutput', false);
@@ -50,7 +50,7 @@ else
     prev_Numbers1 = Previous_label; 
 end
 
-w_small_area = find(Area < 3); % find patches with area 1 or 2 pixels
+w_small_area = find(Middle_Area < 3); % find patches with area 1 or 2 pixels
 y=1;
 for kk=1:length(w_small_area)
     w1 = find( prev_Numbers1 == Mid_Numbers1(w_small_area(kk)) ); % Searching  the label of the small patches of the middle image in the previous image

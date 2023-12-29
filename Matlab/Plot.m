@@ -1,4 +1,4 @@
-function Image = Plot(pr_, edge_, Image, dp, pos_mask, neg_mask)
+function Image = Plot(pr_, edge_, Image, Lp, pos_mask, neg_mask)
 % Plot
 % Inputs:
 %   - Image: Image magnetogram.
@@ -40,14 +40,13 @@ set(gca, 'FontName', 'Times New Romhisan', 'FontSize', 22)
 set(gca, 'FontName', 'Times New Roman', 'FontSize', 22);
 xlabel('Solar-X', 'FontSize', 22, 'FontName', 'Times New Roman')
 title('Degree of node Map')
-for i=1:length(dp(:,1))
-    text(round(dp(i,2)), round(dp(i,3)), sprintf('%d', i), ...
+for i=1:numel(Lp)
+    text(round(Lp(i).xc), round(Lp(i).yc), sprintf('%d',Lp(i).label), ...
         'HorizontalAlignment', 'center', ...
         'VerticalAlignment', 'middle','color','b',...
-        'FontSize',14,'FontName','Times New Roman',...
+        'FontSize',12,'FontName','Times New Roman',...
         'FontWeight','bold');
     hold on
 end
-
 
 end

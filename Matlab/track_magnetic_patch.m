@@ -3,7 +3,7 @@ clc
 close all
 
 % Define the directory path
-directory = 'E:\file_PHD\HMI\crop_data\ARF2022_2990\extract';
+directory = 'C:\Users\SSZ\Documents\GitHub\ISMP\Matlab\data-track';
 
 % Get a list of all .fits files in the directory
 files = dir(fullfile(directory, '*.fits'));
@@ -74,7 +74,7 @@ clear xc yc A label
 
 
 
-for n=2:10
+for n=2:m1
     clear Image fname I new_label adj edge edge_2 Lp_2 common_rows PL repeated_1  repeated_2  new_label ind index
     jj=1;
     
@@ -305,8 +305,8 @@ clear xc yc A label
 end
 
 % imshow latest magnetogram
-edge_2=final_matrix(10).edge;
-label=final_matrix(10).label;
+edge_2=final_matrix(m1).edge;
+label=final_matrix(m1).label;
 
 [Image,pos_mask2]=rankdown(edge_2,threshold); %Extract boundries
 [Image,neg_mask2]=rankdown(-edge_2,threshold); %Extract boundries
