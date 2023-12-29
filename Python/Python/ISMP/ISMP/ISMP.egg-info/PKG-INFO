@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: ISMP
+Version: 1.0.0
+Summary: ISMP - A code for identifying large and small solar magnetic patches
+Home-page: https://github.com/Zahra-Tajik1991/ISMP.git
+Author: Zahra Tajik
+Author-email: Z.tajik@znu.ac.ir
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
