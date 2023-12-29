@@ -19,6 +19,10 @@ The code includes the following functions:
 
 **Plot**: Plot Image.
 
+**findDuplicatesAndMissing**: Find the number of duplicates in an array.
+
+**Track**: Tracking magnetic patches.
+
 ## Examples
 
 In the following example, we provide the identification and tracking magnetic patches for a given image. 
