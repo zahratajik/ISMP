@@ -55,7 +55,7 @@ Plot(pr_,edge_,Image,dp,pos_mask,neg_mask);
 ```
 
 <p align="center">
-<img src="https://github.com/zahratajik/ISMP/assets/75752814/018bc214-f4f2-4011-a155-7ece547ed62a" alt="Identification" width="500">
+<img src="https://github.com/zahratajik/ISMP/assets/75752814/018bc214-f4f2-4011-a155-7ece547ed62a" alt="Identification" width="800">
 </p>
 <!-- ![Identification](https://github.com/zahratajik/ISMP/assets/75752814/018bc214-f4f2-4011-a155-7ece547ed62a) -->
 
