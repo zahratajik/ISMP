@@ -23,7 +23,7 @@ The code includes the following functions:
 
 **Track**: Tracking magnetic patches.
 
-**Note**
+# Note
 
 For more information about this package, please refer to the following article.
 
