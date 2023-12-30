@@ -3,7 +3,7 @@ function adj = adjacancy_matrix(Image,I)
 %Calculating Adjacency Matrix :
 %Inputs:
 %
-%    . Image  =  Imageage Magnetogram
+%    . Image  =  Image Magnetogram
 %    . I  = Coordinates the beginning and ending positions of lines.
 
 %Outputs:
