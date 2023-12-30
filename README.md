@@ -23,6 +23,13 @@ The code includes the following functions:
 
 **Track**: Tracking magnetic patches.
 
+**Note**
+
+For more information about this package, please refer to the following article.
+
+[Tajik, Z., Farhang, N.,  Safari, H.,  & Wheatland, M. S., 2023](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=kIrSiKcAAAAJ&citation_for_view=kIrSiKcAAAAJ:2osOgNQ5qMEC)
+
+
 ## Examples
 
 In the following example, we provide the identification and tracking magnetic patches for a given image. 
