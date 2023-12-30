@@ -1,14 +1,15 @@
-function adj = adjacancy_matrix(Image,I,nx,ny)
+function adj = adjacancy_matrix(Image,I)
 
 %Calculating Adjacency Matrix :
 %Inputs:
-%    . nx and ny  =  nx and ny are  Number of Rows and Columns, Respectively.
+%
 %    . Image  =  Imageage Magnetogram
 %    . I  = Coordinates the beginning and ending positions of lines.
 
 %Outputs:
 %    . adj = Adjacency Matrix
 
+[nx,ny]=size(Image); % nx and ny are  Number of rows and columns, respectively.
 N_pix=nx*ny; % number of pixel in each Imageage
 adj = zeros(N_pix,  N_pix); % adjacancy matrix
 for k = 1:sum(~cellfun(@isempty,{I.s}))

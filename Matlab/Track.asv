@@ -3,13 +3,11 @@ function final_matrix = Track(directory)
 %Tracking Magnetic Patches:
 %Inputs:
 %
-%    . directory  =  data path.
+%    . directory  =  Imageage Magnetogram
 %    
 
 %Outputs:
-%    . final_matrix = This matrix contains comprehensive information about the patches of each image, 
-%such as the image name, patch labels, patch areas, center coordinates, edge matrix, 
-%and false-positive index.
+%    . final_matrix = This matrix contains comprehensive information about the patches of each image, such as the image name, patch labels, patch areas, center coordinates, edge matrix, and false-positive index.
 
 
 % Get a list of all .fits files in the directory

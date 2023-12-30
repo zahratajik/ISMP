@@ -1,14 +1,15 @@
-function I =start_end_lines(nx, ny, Image, threshold)
+function I =start_end_lines(Image, threshold)
 
 % Calculating the initial and final positions of each line:
 %
 %Inputs:
 %    . Image  = Image Magnetogram.
-%    . nx and ny =  nx and ny are  Number of rows and columns, respectively.
+%
 %    . threshold = Threshold for magnetic field, in Gauss
 %
 %Outputs: :
 %    .  I  : Coordinates beginning and ending position of lines.
+[nx,ny]=size(Image); % nx and ny are  Number of rows and columns, respectively.
 numSamples = 2 * max(nx, ny); % number of points for creating a line
 
 w1 = find( Image > threshold );         % positive cells with values greater than a threshold
