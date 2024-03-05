@@ -25,8 +25,8 @@ N_pix = m2*n2;  % number of pixel in each image
 
 %Extraction adjacency and degree of node matrix
 
-I = start_end_lines(m2, n2, Image1, threshold);
-adj = adjacancy_matrix(Image1,I,m2,n2); % Adjacency matrix
+I = start_end_lines(Image1, threshold);
+adj = adjacancy_matrix(Image1,I); % Adjacency matrix
 edge = sum(adj,2); % Degree of node
 edge_1 = reshape(edge,[m2, n2]); %Reshape degree of node to image size
 
@@ -90,8 +90,8 @@ for n=2:m1
     Image = fitsread(fullfile(directory,fname));
     
     %Extraction adjacency and degree of node matrix
-    I =start_end_lines(m2, n2, Image, threshold);
-    adj=adjacancy_matrix(Image,I,m2,n2); % Adjacency matrix
+    I =start_end_lines(Image, threshold);
+    adj=adjacancy_matrix(Image,I); % Adjacency matrix
     edge = sum(adj,2); % Degree of node
     edge_2 =reshape(edge,[m2, n2]); %Reshape degree of node to image size
     Lp_2 = Label_of_patch(edge_2);% Label of patches
@@ -143,8 +143,8 @@ for n=2:m1
         
         
         %% Finding merge and fragmentation
-        repeated_1 = findDuplicatesAndMissing(PL(:,1)); % Find Fragment
-        repeated_2 = findDuplicatesAndMissing(PL(:,2)); % Find Merge
+        repeated_1 = findDuplicates(PL(:,1)); % Find Fragment
+        repeated_2 = findDuplicates(PL(:,2)); % Find Merge
         
         %Fragmentation
         if repeated_1 ~= 0
@@ -235,8 +235,8 @@ for n=2:m1
         
         %% Finding merge and fragmentation
         
-        repeated_1 = findDuplicatesAndMissing(PL(:,1)); % find fragment
-        repeated_2 = findDuplicatesAndMissing(PL(:,2)); % find collision
+        repeated_1 = findDuplicates(PL(:,1)); % find fragment
+        repeated_2 = findDuplicates(PL(:,2)); % find collision
         
         %Fragmentation
         

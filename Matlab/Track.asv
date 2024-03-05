@@ -3,11 +3,13 @@ function final_matrix = Track(directory)
 %Tracking Magnetic Patches:
 %Inputs:
 %
-%    . directory  =  Imageage Magnetogram
+%    . directory  =  data path.
 %    
 
 %Outputs:
-%    . final_matrix = This matrix contains comprehensive information about the patches of each image, such as the image name, patch labels, patch areas, center coordinates, edge matrix, and false-positive index.
+%    . final_matrix = This matrix contains comprehensive information about the patches of each image, 
+%such as the image name, patch labels, patch areas, center coordinates, edge matrix, 
+%and false-positive index.
 
 
 % Get a list of all .fits files in the directory
@@ -23,7 +25,7 @@ N_pix = m2*n2;  % number of pixel in each image
 
 %Extraction adjacency and degree of node matrix
 
-I = start_end_lines(m2, n2, Image1, threshold);
+I = start_end_lines(Image1, threshold);
 adj = adjacancy_matrix(Image1,I,m2,n2); % Adjacency matrix
 edge = sum(adj,2); % Degree of node
 edge_1 = reshape(edge,[m2, n2]); %Reshape degree of node to image size
