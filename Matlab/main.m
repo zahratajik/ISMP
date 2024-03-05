@@ -3,6 +3,8 @@ clear all
 close all
 clc
 
+%Identification
+
 Image=fitsread('HMI20220117_235852_6173.fits'); %Load Magnetogram.
 [nx,ny]=size(Image); % nx and ny are  Number of rows and columns, respectively.
 threshold = 18; % threshold for magnetic field, in Gauss.
@@ -24,6 +26,7 @@ end
 Plot(pr_,edge_,Image,Lp,pos_mask,neg_mask); 
 
 %%
+
 %Track
 
 % Define the directory path
