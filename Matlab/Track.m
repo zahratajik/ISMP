@@ -218,11 +218,11 @@ for n=2:m1
         
         h=1;
         for p=1:sum(~cellfun(@isempty,{Lp_1.label}))
-                aaa=(regexp ((Lp_1(p).label), '[0-9]+', 'match'));
+                Num=(regexp ((Lp_1(p).label), '[0-9]+', 'match'));
                 if length(aaa)==1
-                new_label(h) = str2num(string(aaa));
+                new_label(h) = str2num(string(Num));
                 else 
-                new_label(h) = str2num(string(aaa(1,2))); 
+                new_label(h) = str2num(string(Num(1,2))); 
                 end
                 h=h+1;
         end
