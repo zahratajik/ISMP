@@ -112,7 +112,7 @@ for n=2:m1
                 xyc_2(1,2)=Lp_2(kk).yc; % y center
                 size_2=Lp_2(kk).A; %Area
                 D = sqrt(max(size_1,size_2));
-                if  abs(xyc_1(1,1)-xyc_2(1,1)) < D
+                if  abs(xyc_1(1,1)-xyc_2(1,1)) < D && abs(xyc_1(1,2)-xyc_2(1,2))
                     common_rows  = intersect(xyp_1(:, :), xyp_2(:, :), 'rows');
                     tresh = (length(common_rows(:,1))/length(xyp_1(:,1)))*100; % Similarity percentage of two patches
                     if tresh >= 30
@@ -192,7 +192,7 @@ for n=2:m1
                 size_2=Lp_2(kk).A; %Area
                 D = sqrt(max(size_1,size_2));
                 
-                if  abs(xyc_1(1,1)-xyc_2(1,1)) < D
+                if  abs(xyc_1(1,1)-xyc_2(1,1)) < D && abs(xyc_1(1,2)-xyc_2(1,2))
                     common_rows  = intersect(xyp_1(:, :), xyp_2(:, :), 'rows');
                     tresh = (length(common_rows(:,1))/length(xyp_1(:,1)))*100; % Similarity percentage of two patches
                     if tresh >= 30
