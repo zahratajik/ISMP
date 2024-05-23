@@ -15,9 +15,10 @@ function final_matrix = Track(directory)
 % Get a list of all .fits files in the directory
 files = dir(fullfile(directory, '*.fits'));
 
+n=1; % frist magnetogram
 % Initialize variables
 m1 = length(files);
-fname = files(1,1).name;
+fname = files(n,1).name;
 Image1 = fitsread(fullfile(directory, fname));
 threshold = 18; % threshold for magnetic field, in Gauss
 [m2,n2] = size(Image1); % m2 and n2 are  Number of rows and columns, respectively
@@ -25,8 +26,8 @@ N_pix = m2*n2;  % number of pixel in each image
 
 %Extraction adjacency and degree of node matrix
 
-I = start_end_lines(m2, n2, Image1, threshold);
-adj = adjacancy_matrix(Image1,I,m2,n2); % Adjacency matrix
+I = start_end_lines(Image1, threshold);
+adj = adjacancy_matrix(Image1,I); % Adjacency matrix
 edge = sum(adj,2); % Degree of node
 edge_1 = reshape(edge,[m2, n2]); %Reshape degree of node to image size
 
@@ -41,7 +42,7 @@ end
 [Image1,neg_mask1]=rankdown(-edge_1,threshold); %Extract boundries
 
 % imshow frist magnetogram with labels and contours
-figure(10),subplot(1,2,1),imshow(edge_1,[-60 60])
+figure,subplot(1,2,1),imshow(edge_1,[-60 60])
 hold on
 axis on
 axis xy
@@ -63,22 +64,9 @@ for i=1:numel(Lp_1)
     hold on
 end
 
-n=1; % frist magnetogram
-for i=1:length(Lp_1)
-    label(i)=Lp_1(i).label;
-    A(i)= Lp_1(i).A;
-    xc(i)=Lp_1(i).xc;
-    yc(i)=Lp_1(i).yc;
-end
 
-final_matrix(n).imname = fname;
-final_matrix(n).label = label;
-final_matrix(n).Area = A;
-final_matrix(n).xc = xc;
-final_matrix(n).yc = yc;
-final_matrix(n).edge=edge_1;
-clear xc yc A label
 
+final_matrix(n) = save_Info(fname, Lp_1);
 
 
 for n=2:m1
@@ -90,8 +78,8 @@ for n=2:m1
     Image = fitsread(fullfile(directory,fname));
     
     %Extraction adjacency and degree of node matrix
-    I =start_end_lines(m2, n2, Image, threshold);
-    adj=adjacancy_matrix(Image,I,m2,n2); % Adjacency matrix
+    I =start_end_lines(Image, threshold);
+    adj=adjacancy_matrix(Image,I); % Adjacency matrix
     edge = sum(adj,2); % Degree of node
     edge_2 =reshape(edge,[m2, n2]); %Reshape degree of node to image size
     Lp_2 = Label_of_patch(edge_2);% Label of patches
@@ -127,49 +115,51 @@ for n=2:m1
             clear xyp_1 xyc_1 size_1
         end
         
-        % Finding new patches and labeling
-        ind = find(cellfun(@(x) strcmp(x, 'n'), {Lp_2.label})); 
+        %The emergence of the magnetic patch
+        ind = find(strcmp({Lp_2.label}, 'n'));
         
         h=1;
          for p=1:sum(~cellfun(@isempty,{Lp_1.label}))
-                new_label(h) = (Lp_1(p).label);
+                old_label(h) = (Lp_1(p).label);
                 h=h+1;
         end
         
         for i2=1:length(ind)
-            newlabel_Array = {num2str(max(new_label)+i2)};
+            newlabel_Array = {num2str(max(old_label)+i2)};
             Lp_2(ind(i2)).label = ("E-"+""+newlabel_Array);
         end
         
         
         %% Finding merge and fragmentation
-        repeated_1 = findDuplicatesAndMissing(PL(:,1)); % Find Fragment
-        repeated_2 = findDuplicatesAndMissing(PL(:,2)); % Find Merge
-        
-        %Fragmentation
-        if repeated_1 ~= 0
-            for t=1:length(repeated_1)
-                w1 (:,1) = find( PL(:,1) == repeated_1(t));
-                fragment(:,1) = PL(w1,2);
-                for j1=1:length(fragment(:,1))
-                    Lp_2(fragment(j1,1)).label = sprintf("F%d-%d",j1,(max(new_label)+length(ind))+ j1);
-                end
-                
-                clear fragment w1
-            end
+         %% Finding merge and fragmentation
+        repeated_1 = findDuplicates(PL(:,1)); % Find Fragment
+        %Fragment
+        if ~isempty(repeated_1)
+            Lp_2 = Fragmentation(repeated_1, PL, Lp_2, old_label, ind,qs);
         end
         
-        %Merge
-        clear w1 Area w_max new_label2 w_A ww
+     
+        PL(any(ismember(PL,repeated_1), 2), :) = []; % remove the index corresponding with Fragment
+        
+       %Merge
+        repeated_2 = findDuplicates(PL(:,2)); % Find Merge
         if repeated_2 ~= 0
-            for t=1:length(repeated_2)
-                ww(:,1) = find( PL(:,2) == repeated_2(t)); % Find duplicate numbers in step new
-                merge(:,1) = PL(ww,1); % equivalent to the counters in step old
-                for j2=1:length(merge(:,1))
-                    Area(j2,1)= Lp_1(merge(j2,1)).A; % find Area of each patch
+            for t = 1:length(repeated_2)
+                % Find duplicate indexes
+                ww(:,1) = find(PL(:, 2) == repeated_2(t));
+                merge(:,1) = PL(ww, 1);
+                
+                % Calculate the area to find the maximum value
+                Area = zeros(length(merge), 1);
+                for j2 = 1:length(merge)
+                    Area(j2) = Lp_1(merge(j2)).area;
                 end
-                w_max = find( Area(:,1) == max(Area(:,1))); % maximum Area
-                Lp_2(repeated_2(t)).label = ("M-"+""+ num2str(Lp_1(merge(w_max(1))).label));
+                
+                w_max = find(Area == max(Area)); %biggest Area
+                
+                % Perform tagging for each duplicate element
+                Lp_2(repeated_2(t)).label = "M-" + num2str(Lp_1(merge(w_max(1))).label);
+                
                 clear w_max ww merge Area
             end
         end
@@ -213,56 +203,43 @@ for n=2:m1
             clear xyp_1 xyc_1 size_1
         end
         
-        % Finding new patches and labeling
-        ind = find(cellfun(@(x) strcmp(x, 'n'), {Lp_2.label}));
+        %The emergence of the magnetic patch
+        ind = find(strcmp({Lp_2.label}, 'n'));
         
         h=1;
         for p=1:sum(~cellfun(@isempty,{Lp_1.label}))
-                aaa=(regexp ((Lp_1(p).label), '[0-9]+', 'match'));
-                if length(aaa)==1
-                new_label(h) = str2num(string(aaa));
-                else 
-                new_label(h) = str2num(string(aaa(1,2))); 
-                end
-                h=h+1;
+            extrct_num=(regexp ((Lp_1(p).label), '[0-9]+', 'match'));
+            if length(extrct_num)==1
+                old_label(h) = str2double(string(extrct_num));
+            else
+                old_label(h) = str2double(string(extrct_num(1,2)));
+            end
+            h=h+1;
         end
         
         for i2=1:length(ind)
-            newlabel_Array = {num2str(max(new_label)+i2)};
-            Lp_2(ind(i2)).label = ("E-"+""+newlabel_Array);
+            newlabel_Array = {num2str(max(old_label)+i2)};
+            Lp_2(ind(i2)).label = ("E-"+""+ newlabel_Array);%The emergence of the magnetic patch
         end
         
         
         %% Finding merge and fragmentation
         
-        repeated_1 = findDuplicatesAndMissing(PL(:,1)); % find fragment
-        repeated_2 = findDuplicatesAndMissing(PL(:,2)); % find collision
-        
-        %Fragmentation
-        
-        if repeated_1 ~= 0
-            for t=1:length(repeated_1)
-                w1 (:,1) = find( PL(:,1) == repeated_1(t));
-                fragment(:,1) = PL(w1,2);
-                for j1=1:length(fragment(:,1))
-                    Lp_2(fragment(j1,1)).label = sprintf("F%d-%d",j1,(max(new_label)+length(ind))+ j1);
-                    
-                    
-                end
-                clear fragment w1 numbers
-            end
+         %Fragment
+        repeated_1 = findDuplicates(PL(:,1)); % Find Fragment
+        if ~isempty(repeated_1)
+            Lp_2 = Fragmentation(repeated_1, PL, Lp_2, old_label, ind,qs);
         end
-        clear fragment
+        
+        PL(any(ismember(PL,repeated_1), 2), :) = [];
         % Merge
-        
-        clear w1 Area w_max w_A ww
-        
+        repeated_2 = findDuplicates(PL(:,2)); % Find Merge
         if repeated_2 ~= 0
             for t=1:length(repeated_2)
                 ww(:,1) = find( PL(:,2) == repeated_2(t)); % Find duplicate numbers in step new
                 merge(:,1) = PL(ww,1); % equivalent to the counters in step old
                 for j2=1:length(merge(:,1))
-                    Area(j2,1)= Lp_1(merge(j2,1)).A; % find Area of each patch
+                    Area(j2,1)= double(Lp_1(merge(j2,1)).area); % find Area of each patch
                 end
                 w_max = find( Area(:,1) == max(Area(:,1))); % maximum Area
                 
@@ -276,37 +253,24 @@ for n=2:m1
                 end
                 clear w_max ww merge Area
             end
-            
         end
         
     end
     clear yc xc A label
     
     % save information each magntogram
-    label = cell(length(Lp_2), 1);
-    for i=1:length(Lp_2)
-        label{i} = Lp_2(i).label;
-        A(i)=Lp_2(i).A;
-        xc(i)=Lp_2(i).xc;
-        yc(i)=Lp_2(i).yc;
-    end
+    final_matrix(n) = save_Info(fname, Lp_2);
     
-    final_matrix(n).imname = fname;
-    final_matrix(n).label = label;
-    final_matrix(n).Area = A;
-    final_matrix(n).xc = xc;
-    final_matrix(n).yc = yc;
-    final_matrix(n).edge=edge_2;
-clear xc yc A label
+    
     if n>=3 && n<m1-1
         % Find index of noise patches
         index = chek_noise_patch(final_matrix,n);
         if ~isempty(index)
-        % Remove noise patches
-        final_matrix = remove_noisie_patch(final_matrix,n, index);
+            % Remove noise patches
+            final_matrix = remove_noisie_patch(final_matrix,n, index);
         end
     end
-    
+ 
     clear Lp_1
     Lp_1 = Lp_2;
 end
