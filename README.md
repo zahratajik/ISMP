@@ -19,7 +19,7 @@ The code includes the following functions:
 
 **Plot**: Plot Image.
 
-**findDuplicatesAndMissing**: Find the number of duplicates in an array.
+**findDuplicates**: Find the number of duplicates in an array.
 
 **Merge**: Detection of merged patches and update labels.
 
