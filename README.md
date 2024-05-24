@@ -21,6 +21,10 @@ The code includes the following functions:
 
 **findDuplicatesAndMissing**: Find the number of duplicates in an array.
 
+**Merge**: Detection of merged patches and update labels.
+
+**Fragmentation**: Detection of Fragmentation patches and update labels.
+
 **Track**: Tracking magnetic patches.
 
 # Note
